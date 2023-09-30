@@ -8,6 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.chopy.gwizdbackenddeploy.model.entity.Achievement;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -24,5 +27,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser());
     }
 
-
+    @GetMapping("/achievements")
+    @Operation(summary = "Get achievements for user")
+    public ResponseEntity<List<Achievement>> getAchievementsForUser() {
+        return ResponseEntity.ok(userService.getAchievementsForUser());
+    }
 }

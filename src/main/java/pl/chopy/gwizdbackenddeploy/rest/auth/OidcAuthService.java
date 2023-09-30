@@ -55,7 +55,7 @@ public class OidcAuthService extends OidcUserService {
     public User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return Option.ofOptional(userRepository.findByEmail(username))
-            .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
 }
