@@ -5,7 +5,7 @@ import pl.chopy.gwizdbackenddeploy.model.ReportType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -23,7 +23,7 @@ public class Report {
     @NotEmpty
     private String title;
     private String description;
-    private Date createdDate;
-    private boolean isActive;
-    private boolean isWarning;
+    private LocalDateTime createdDate = LocalDateTime.now();
+    private boolean isActive = true;
+    private boolean isWarning = true;
 }
