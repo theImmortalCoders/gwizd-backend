@@ -24,17 +24,19 @@ public class ReportController {
         reportService.addReport(request);
     }
 
-    @PostMapping("/filter")
+    @GetMapping
     @Operation(summary = "Get reports with filters")
     public ResponseEntity<List<SingleReportResponse>> getReports(
-            @RequestBody(required = false) LocationAddRequest request,
             @RequestParam(required = false) Long animalId,
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) ReportType reportType,
-            @RequestParam(required = false) Double distanceRange
+            @RequestParam(required = false) Double distanceRange,
+            @RequestParam(required = false) Double latitude,
+            @RequestParam(required = false) Double longitude,
+            @RequestParam(required = false, defaultValue = "true") boolean isActive
     ) {
         return ResponseEntity.ok(reportService.getReports(
-                animalId, reportType, distanceRange, request, userId)
+                animalId, reportType, distanceRange, userId, latitude, longitude, isActive)
         );
     }
 }
