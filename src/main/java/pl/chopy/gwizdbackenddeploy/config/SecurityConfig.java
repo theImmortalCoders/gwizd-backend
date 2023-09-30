@@ -39,10 +39,13 @@ public class SecurityConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins(
                         "http://localhost:3000",
-                        "https://gwizd.online",
-                        "https://api.gwizd.online",
+                        "http://localgost:8080",
+                        "http://front.gwizd.online",
                         "http://gwizd.online",
-                        "http://api.gwizd.online"
+                        "https://gwizd.online",
+                        "http://api.gwizd.online",
+                        "https://api.gwizd.online",
+                        "http://back.gwizd.online"
                 ).allowCredentials(true);
             }
         };
