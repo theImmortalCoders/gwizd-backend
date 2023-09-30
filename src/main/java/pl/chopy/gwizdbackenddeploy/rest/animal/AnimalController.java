@@ -15,16 +15,16 @@ import java.util.List;
 @Tag(name = "Animals")
 public class AnimalController {
     private final AnimalService animalService;
+
     @PostMapping
     @Operation(summary = "Add animal")
-    public void addAnimal(@RequestBody AnimalAddRequest request){
+    public void addAnimal(@RequestBody AnimalAddRequest request) {
         animalService.addAnimal(request);
     }
 
     @GetMapping
     @Operation(summary = "Get all animals")
-    public ResponseEntity<List<Animal>> getAnimals(){
+    public ResponseEntity<List<Animal>> getAnimals() {
         return ResponseEntity.ok(animalService.getAnimals());
     }
-
 }

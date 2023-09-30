@@ -16,15 +16,16 @@ import java.util.List;
 public class AnimalService {
     private final AnimalRepository animalRepository;
     private final AnimalMapper animalMapper;
+
     public void addAnimal(AnimalAddRequest request) {
         Option.of(request)
                 .map(animalMapper::map)
                 .map(animalRepository::save)
-                .getOrElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
     }
 
     public List<Animal> getAnimals() {
         return Option.of(animalRepository.findAll())
-                .getOrElseThrow(()->new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+                .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }

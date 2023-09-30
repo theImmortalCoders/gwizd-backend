@@ -26,4 +26,5 @@ public class Report {
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime sleepDate = this.createdDate.plusHours(1);
     private boolean isActive = true;
+    private boolean isWarning = true;
 }
