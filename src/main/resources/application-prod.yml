@@ -2,7 +2,7 @@ gwizd:
   security:
     auth:
       loginUri: /api/oauth2/authorize
-      redirectUri: https://gwizd.online
+      redirectUri: http://localhost:8080
       logoutUri: /api/oauth2/logout
 spring:
   datasource:
