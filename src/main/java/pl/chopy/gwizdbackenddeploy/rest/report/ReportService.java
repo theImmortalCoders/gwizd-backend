@@ -17,6 +17,7 @@ import pl.chopy.gwizdbackenddeploy.model.repository.ReportRepository;
 import pl.chopy.gwizdbackenddeploy.model.repository.UserRepository;
 import pl.chopy.gwizdbackenddeploy.rest.auth.OidcAuthService;
 import pl.chopy.gwizdbackenddeploy.rest.location.LocationService;
+import pl.chopy.gwizdbackenddeploy.rest.proceed.ReportProceedService;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class ReportService {
     private final LocationMapper locationMapper;
     private final LocationService locationService;
     private final OidcAuthService oidcAuthService;
+    private final ReportProceedService reportProceedService;
 
     public void addReport(ReportAddRequest request) {
         var user = oidcAuthService.getCurrentUser();
@@ -42,13 +44,14 @@ public class ReportService {
                 .map(locationMapper::map)
                 .map(locationRepository::save)
                 .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
-        Option.of(request)
+        var report = Option.of(request)
                 .map(reportMapper::map)
                 .peek(rep -> rep.setAnimal(animal))
                 .peek(rep -> rep.setAuthor(user))
                 .peek(rep -> rep.setLocation(location))
                 .map(reportRepository::save)
                 .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        reportProceedService.processReport(report);
     }
 
     public List<SingleReportResponse> getReports(
