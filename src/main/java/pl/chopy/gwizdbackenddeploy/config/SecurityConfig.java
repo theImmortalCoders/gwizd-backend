@@ -30,13 +30,20 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final OidcAuthService oidcAuthService;
+    private final AppConfig.SecurityAuthProperties securityAuthProperties;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000").allowCredentials(true);
+                registry.addMapping("/**").allowedOrigins(
+                        "http://localhost:3000",
+                        "https://gwizd.online",
+                        "https://api.gwizd.online",
+                        "http://gwizd.online",
+                        "http://api.gwizd.online"
+                ).allowCredentials(true);
             }
         };
     }
@@ -52,19 +59,19 @@ public class SecurityConfig {
                         .userInfoEndpoint()
                         .oidcUserService(oidcAuthService)
                         .and()
-                        .authorizationEndpoint().baseUri("/api/oauth2/authorize")
+                        .authorizationEndpoint().baseUri(securityAuthProperties.getLoginUri())
                         .and()
                         .successHandler((request, response, authentication) -> {
                             String redirectUrl = Arrays.stream(request.getCookies())
                                     .filter(cookie -> cookie.getName().equals("redirectUrl"))
                                     .findFirst()
                                     .map(Cookie::getValue)
-                                    .orElse("http://localhost:8080/api/docs.html/");
+                                    .orElse(securityAuthProperties.getRedirectUri());
                             response.sendRedirect(redirectUrl);
                         }))
                 .logout(logout -> logout
-                        .logoutUrl("/api/oauth2/logout")
-                        .logoutSuccessUrl("http://localhost:3000/")
+                        .logoutUrl(securityAuthProperties.getLogoutUri())
+                        .logoutSuccessUrl(securityAuthProperties.getRedirectUri())
                         .invalidateHttpSession(false)
                         .deleteCookies("JSESSIONID")
                 )

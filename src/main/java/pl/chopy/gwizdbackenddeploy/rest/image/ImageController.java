@@ -21,7 +21,7 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping(consumes = "multipart/form-data")
-    @Operation(summary = "Upload image to server (authentication required)")
+    @Operation(summary = "Upload image to server")
     public ResponseEntity<String> uploadImage(@RequestBody MultipartFile file, @RequestParam(required = false, defaultValue = "false") boolean crop) throws IOException {
         return ResponseEntity.ok(imageService.uploadImage(file, crop));
     }
