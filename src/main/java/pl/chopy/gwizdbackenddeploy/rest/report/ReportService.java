@@ -64,6 +64,7 @@ public class ReportService {
             Long userId, Double latitude,
             Double longitude,
             boolean isActive) {
+        reportProceedService.checkActivity();
         Animal animal = null;
         if (animalId != null) {
             animal = Option.ofOptional(animalRepository.findById(animalId))

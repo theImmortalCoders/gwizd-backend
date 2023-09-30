@@ -23,10 +23,10 @@ public class ImageService {
 
     private final ImageDataRepository imageDataRepository;
     private final OidcAuthService authService;
-    private final String FOLDER_PATH = "C:\\Users\\marci\\Desktop\\Repozytorium\\Projekty\\Hackyeah\\Gwizd-deploy\\gwizd-backend\\public\\images";
+    private final String FOLDER_PATH = "C:\\Users\\marci\\Desktop\\Repozytorium\\Projekty\\Hackyeah\\Gwizd-deploy\\gwizd-backend\\public\\images\\";
 
     public String uploadImage(MultipartFile file, boolean crop) throws IOException {
-        String fileName = authService.getCurrentUser().getId().toString() + "_" + file.getOriginalFilename();
+        String fileName =  "1_" + file.getOriginalFilename();
         BufferedImage image = ImageIO.read(file.getInputStream());
         if (crop) {
             int size = Math.min(image.getHeight(), image.getWidth());

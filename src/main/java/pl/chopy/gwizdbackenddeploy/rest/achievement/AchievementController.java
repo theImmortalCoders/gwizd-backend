@@ -23,8 +23,8 @@ public class AchievementController {
     }
 
     @GetMapping
-    @Operation(summary = "Add achievement")
-    public ResponseEntity<List<Achievement>> addAchievement() {
+    @Operation(summary = "Get all achievements")
+    public ResponseEntity<List<Achievement>> getAchievements() {
         return ResponseEntity.ok(achievementService.getAllAchievements());
     }
 }
