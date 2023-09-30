@@ -56,7 +56,7 @@ public class ReportService {
                 animal,
                 reportType
         );
-        if (distanceRange != null) {
+        if (distanceRange != null && location != null) {
             var loc = locationMapper.map(location);
             locationRepository.save(loc);
             reportsJpa = reportsJpa

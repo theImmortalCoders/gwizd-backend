@@ -18,12 +18,9 @@ spring:
     oauth2:
       client:
         registration:
-          github:
-            client-id: ba73d03d82d1f394ba4d
-            client-secret: 593c2bda4bcef70c79f4c7a2ce0a3a29baf77964
           google:
-            client-id: 1081964380740-mauemd8ajiqueh7l3hf846a6gr75vuo9.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 320408590575-fiidhhbp7bocnu22rtov41s6llb98e83.apps.googleusercontent.com
+            client-secret: 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
   mail:
     username: heilmartinos@gmail.com
     password: tqegwigfjdyyecla
