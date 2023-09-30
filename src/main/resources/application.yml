@@ -1,9 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/user
-    username: user
-    password: password
-    driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -38,4 +33,3 @@ springdoc:
     path: /api/docs
   swagger-ui:
     path: /api/docs.html
-
