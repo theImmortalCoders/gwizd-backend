@@ -20,8 +20,8 @@ public class ReportController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "Add new report (auth required)")
-    public void addReport(@RequestBody ReportAddRequest request) {
-        reportService.addReport(request);
+    public ResponseEntity<SingleReportResponse> addReport(@RequestBody ReportAddRequest request) {
+        return ResponseEntity.ok(reportService.addReport(request));
     }
 
     @GetMapping

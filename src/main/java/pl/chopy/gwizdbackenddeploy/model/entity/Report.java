@@ -25,6 +25,7 @@ public class Report {
     @ManyToOne
     private User author;
     private String description;
+    private String photo;
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime sleepDate = this.createdDate.plusHours(1);
     private boolean isActive = true;
