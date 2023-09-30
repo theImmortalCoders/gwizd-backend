@@ -29,11 +29,12 @@ public class ReportController {
     public ResponseEntity<List<SingleReportResponse>> getReports(
             @RequestBody(required = false) LocationAddRequest request,
             @RequestParam(required = false) Long animalId,
+            @RequestParam(required = false) Long userId,
             @RequestParam(required = false) ReportType reportType,
             @RequestParam(required = false) Double distanceRange
     ) {
         return ResponseEntity.ok(reportService.getReports(
-                animalId, reportType, distanceRange, request)
+                animalId, reportType, distanceRange, request, userId)
         );
     }
 }

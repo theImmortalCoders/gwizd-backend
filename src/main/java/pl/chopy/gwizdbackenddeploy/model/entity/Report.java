@@ -22,6 +22,8 @@ public class Report {
     private Integer quantity;
     @NotEmpty
     private String title;
+    @ManyToOne
+    private User author;
     private String description;
     private LocalDateTime createdDate = LocalDateTime.now();
     private LocalDateTime sleepDate = this.createdDate.plusHours(1);
