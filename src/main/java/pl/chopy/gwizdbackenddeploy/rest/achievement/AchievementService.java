@@ -11,6 +11,7 @@ import pl.chopy.gwizdbackenddeploy.model.repository.AchievementRepository;
 import pl.chopy.gwizdbackenddeploy.model.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -30,20 +31,25 @@ public class AchievementService {
         return achievementRepository.findAll();
     }
 
-    public void addAchievement(Long achievId, Long userId) {
-        var user = Option.ofOptional(userRepository.findById(achievId))
+    public Achievement addAchievement(Long achievId, Long userId) {
+        var user = Option.ofOptional(userRepository.findById(userId))
                 .getOrElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "User '" + userId + "' not found."));
         var achievement = Option.ofOptional(achievementRepository.findById(achievId))
                 .getOrElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Achievement '" + userId + "' not found."));
+                        "Achievement '" + achievId + "' not found."));
+
         var userAchievements = user.getAchievements();
+        if (userAchievements.contains(achievement)) {
+            return null;
+        }
         userAchievements.add(achievement);
         user.setAchievements(userAchievements);
-        Option.of(user)
-                .map(userRepository::save)
-                .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+        Option.of(userRepository.save(user))
+                .getOrElseThrow(()->new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+        return achievement;
     }
+
 }

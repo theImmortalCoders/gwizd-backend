@@ -24,6 +24,10 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
             @Param("isActive") boolean isActive
     );
 
+    @Query("SELECT r FROM Report r WHERE r.isActive = :isActive")
+    List<Report> findAllByActive(boolean isActive);
+
+    int countAllByAuthor(User author);
 }
 
 

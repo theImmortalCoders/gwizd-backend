@@ -34,7 +34,7 @@ public class ReportService {
     private final OidcAuthService oidcAuthService;
     private final ReportProceedService reportProceedService;
 
-    public void addReport(ReportAddRequest request) {
+    public SingleReportResponse addReport(ReportAddRequest request) {
         var user = oidcAuthService.getCurrentUser();
         var animal = Option.ofOptional(animalRepository.findById(request.getAnimalId()))
                 .getOrElseThrow(() -> new ResponseStatusException(
@@ -52,6 +52,9 @@ public class ReportService {
                 .map(reportRepository::save)
                 .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
         reportProceedService.processReport(report);
+        var response = reportMapper.map(report);
+        response.setNewAchievements(reportProceedService.checkAchievements(report));
+        return response;
     }
 
     public List<SingleReportResponse> getReports(

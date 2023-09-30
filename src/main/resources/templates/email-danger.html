@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wiadomość o zgłoszeniu zagrożenia z udziałem dzikiego zwierzęcia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <p>Tytuł zgłoszenia:
+        <span th:text="${report.getTitle()}"></span>.
+    </p>
+    <p>Treść zgłoszenia:
+        <span th:text="${report.getDescription()}"></span>.
+    </p>
+    <p>Data zgłoszenia:
+        <span th:text="${report.getCreatedDate()}"></span>
+    </p>
+    <p>Zwierzę:
+        <span th:text="${report.getAnimal().getName()}"></span>
+    </p>
+    <p>Ilość:
+        <span th:text="${report.getQuantity()}"></span>
+    </p>
+    <p>
+        <span th:text="${report.getPhoto()}"></span>
+    </p>
+    <a th:href="@{https://gwizd.online}" target="_blank">
+        <button>Zobacz na stronie</button>
+    </a>
+</div>
+</body>
+</html>

@@ -19,7 +19,4 @@ public class UserService {
         return userMapper.map(authService.getCurrentUser());
     }
 
-    public List<Achievement> getAchievementsForUser() {
-        return authService.getCurrentUser().getAchievements();
-    }
 }

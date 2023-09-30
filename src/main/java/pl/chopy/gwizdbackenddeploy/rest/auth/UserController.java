@@ -27,9 +27,4 @@ public class UserController {
         return ResponseEntity.ok(userService.getCurrentUser());
     }
 
-    @GetMapping("/achievements")
-    @Operation(summary = "Get achievements for user")
-    public ResponseEntity<List<Achievement>> getAchievementsForUser() {
-        return ResponseEntity.ok(userService.getAchievementsForUser());
-    }
 }
