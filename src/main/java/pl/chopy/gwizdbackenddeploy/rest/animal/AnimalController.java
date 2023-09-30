@@ -26,4 +26,5 @@ public class AnimalController {
     public ResponseEntity<List<Animal>> getAnimals(){
         return ResponseEntity.ok(animalService.getAnimals());
     }
+
 }
