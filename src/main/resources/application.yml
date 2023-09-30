@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      indent-output: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ba73d03d82d1f394ba4d
+            client-secret: 593c2bda4bcef70c79f4c7a2ce0a3a29baf77964
+          google:
+            client-id: 1081964380740-mauemd8ajiqueh7l3hf846a6gr75vuo9.apps.googleusercontent.com
+            client-secret: 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
+  mail:
+    username: heilmartinos@gmail.com
+    password: tqegwigfjdyyecla
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+springdoc:
+  api-docs:
+    path: /api/docs
+  swagger-ui:
+    path: /api/docs.html
+
