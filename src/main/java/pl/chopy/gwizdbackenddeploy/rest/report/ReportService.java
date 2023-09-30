@@ -59,7 +59,7 @@ public class ReportService {
                             HttpStatus.NOT_FOUND,
                             "Animal '" + animalId + "' not found."));
         }
-        User user= null;
+        User user = null;
         if (userId != null) {
             user = Option.ofOptional(userRepository.findById(userId))
                     .getOrElseThrow(() -> new ResponseStatusException(

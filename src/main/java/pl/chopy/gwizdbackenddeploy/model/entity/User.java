@@ -7,7 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import pl.chopy.gwizdbackenddeploy.model.Rank;
 import pl.chopy.gwizdbackenddeploy.model.Role;
 
 import javax.persistence.*;
@@ -31,19 +30,17 @@ public class User implements UserDetails, OAuth2User {
     @NotNull
     private String username;
     @Enumerated(EnumType.STRING)
-    private Role role=Role.USER;
+    private Role role = Role.USER;
     @Email
     @Column(unique = true)
     private String email;
     private String photo;
-    @OneToOne
-    private Rank rank;
-    private boolean isActive;
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Achievement> achievements;
+    private boolean isActive = true;
 
     public User() {
-        this.rank = new Rank();
-        this.rank.setId(1L);
-        this.isActive = true;
+
     }
 
     @Override
@@ -59,7 +56,7 @@ public class User implements UserDetails, OAuth2User {
         attributes.put("email", email);
         attributes.put("role", role);
         attributes.put("login", username);
-        attributes.put("rank", rank);
+        attributes.put("achievements", achievements);
         attributes.put("avatar_url", photo);
         attributes.put("picture", photo);
         return attributes;
