@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import pl.chopy.gwizdbackenddeploy.model.ReportType;
 import pl.chopy.gwizdbackenddeploy.model.entity.Animal;
+import pl.chopy.gwizdbackenddeploy.model.entity.Location;
 import pl.chopy.gwizdbackenddeploy.model.entity.User;
 import pl.chopy.gwizdbackenddeploy.model.mapper.LocationMapper;
 import pl.chopy.gwizdbackenddeploy.model.mapper.ReportMapper;
@@ -51,7 +52,12 @@ public class ReportService {
     }
 
     public List<SingleReportResponse> getReports(
-            Long animalId, ReportType reportType, Double distanceRange, LocationAddRequest location, Long userId) {
+            Long animalId,
+            ReportType reportType,
+            Double distanceRange,
+            Long userId, Double latitude,
+            Double longitude,
+            boolean isActive) {
         Animal animal = null;
         if (animalId != null) {
             animal = Option.ofOptional(animalRepository.findById(animalId))
@@ -66,13 +72,16 @@ public class ReportService {
                             HttpStatus.NOT_FOUND,
                             "User '" + animalId + "' not found."));
         }
-        var reportsJpa = reportRepository.getReportsByAnimalOrReportTypeOrAuthor(
+        var reportsJpa = reportRepository.getReportsByAnimalOrReportTypeOrAuthorAndActive(
                 animal,
                 reportType,
-                user
+                user,
+                isActive
         );
-        if (distanceRange != null && location != null) {
-            var loc = locationMapper.map(location);
+        if (distanceRange != null && latitude != null && longitude!=null) {
+            var loc = new Location();
+            loc.setLongitude(longitude);
+            loc.setLatitude(latitude);
             locationRepository.save(loc);
             reportsJpa = reportsJpa
                     .parallelStream()

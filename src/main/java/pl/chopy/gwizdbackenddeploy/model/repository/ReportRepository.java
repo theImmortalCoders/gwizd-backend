@@ -15,11 +15,13 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     @Query("SELECT r FROM Report r " +
             "WHERE (:animal IS NULL OR r.animal = :animal) " +
             "AND (:reportType IS NULL OR r.reportType = :reportType) " +
+            "AND (:isActive IS NULL OR r.isActive = :isActive) " +
             "AND (:author IS NULL OR r.author = :author) ")
-    List<Report> getReportsByAnimalOrReportTypeOrAuthor(
+    List<Report> getReportsByAnimalOrReportTypeOrAuthorAndActive(
             @Param("animal") Animal animal,
             @Param("reportType") ReportType reportType,
-            @Param("author") User author
+            @Param("author") User author,
+            @Param("isActive") boolean isActive
     );
 
 }
