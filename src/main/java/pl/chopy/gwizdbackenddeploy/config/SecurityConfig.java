@@ -9,7 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.chopy.gwizdbackenddeploy.rest.auth.OidcAuthService;
@@ -55,6 +58,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .and()
                 .authorizeHttpRequests(request -> request
                         .anyRequest()
                         .permitAll())
@@ -78,9 +84,16 @@ public class SecurityConfig {
                         .invalidateHttpSession(false)
                         .deleteCookies("JSESSIONID")
                 )
-                .exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
                 .cors();
         return http.build();
+    }
+
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setDomainName("gwizd.com"); // Ustaw domenę twojej poddomeny
+        serializer.setSameSite("None");
+        serializer.setUseSecureCookie(true); // Włącz zabezpieczenie przesyłania plików cookie
+        return serializer;
     }
 }
