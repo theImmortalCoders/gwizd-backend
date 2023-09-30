@@ -84,6 +84,8 @@ public class SecurityConfig {
                         .invalidateHttpSession(false)
                         .deleteCookies("JSESSIONID")
                 )
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .and()
                 .cors();
         return http.build();
     }
