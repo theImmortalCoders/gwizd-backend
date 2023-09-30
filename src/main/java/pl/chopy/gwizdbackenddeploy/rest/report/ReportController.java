@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.chopy.gwizdbackenddeploy.model.ReportFilter;
 import pl.chopy.gwizdbackenddeploy.model.ReportType;
 
 import java.util.List;
@@ -23,16 +22,16 @@ public class ReportController {
         reportService.addReport(request);
     }
 
-    @GetMapping
+    @PostMapping("/filter")
     @Operation(summary = "Get reports with filters")
     public ResponseEntity<List<SingleReportResponse>> getReports(
+            @RequestBody LocationAddRequest request,
             @RequestParam(required = false) Long animalId,
             @RequestParam(required = false) ReportType reportType,
-            @RequestParam(required = false) Double distanceRange,
-            @RequestBody(required = false) LocationAddRequest request
+            @RequestParam(required = false) Double distanceRange
     ) {
         return ResponseEntity.ok(reportService.getReports(
-                new ReportFilter(animalId, reportType, request, distanceRange)
-        ));
+                animalId, reportType, distanceRange, request)
+        );
     }
 }

@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import pl.chopy.gwizdbackenddeploy.model.ReportFilter;
+import pl.chopy.gwizdbackenddeploy.model.ReportType;
 import pl.chopy.gwizdbackenddeploy.model.entity.Animal;
-import pl.chopy.gwizdbackenddeploy.model.entity.Location;
 import pl.chopy.gwizdbackenddeploy.model.mapper.LocationMapper;
 import pl.chopy.gwizdbackenddeploy.model.mapper.ReportMapper;
 import pl.chopy.gwizdbackenddeploy.model.repository.AnimalRepository;
@@ -44,27 +43,25 @@ public class ReportService {
                 .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
     }
 
-    public List<SingleReportResponse> getReports(ReportFilter reportFilter) {
+    public List<SingleReportResponse> getReports(
+            Long animalId, ReportType reportType, Double distanceRange, LocationAddRequest location) {
         Animal animal = null;
-        Location location;
-        if (reportFilter.getAnimalId() != null) {
-            animal = Option.ofOptional(animalRepository.findById(reportFilter.getAnimalId()))
+        if (animalId != null) {
+            animal = Option.ofOptional(animalRepository.findById(animalId))
                     .getOrElseThrow(() -> new ResponseStatusException(
                             HttpStatus.NOT_FOUND,
-                            "Animal '" + reportFilter.getAnimalId() + "' not found."));
+                            "Animal '" + animalId + "' not found."));
         }
         var reportsJpa = reportRepository.getReportsByAnimalOrReportType(
                 animal,
-                reportFilter.getReportType()
+                reportType
         );
-        if (reportFilter.getLocation() != null && reportFilter.getRange() != null) {
-            location = Option.of(reportFilter.getLocation())
-                    .map(locationMapper::map)
-                    .map(locationRepository::save)
-                    .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+        if (distanceRange != null) {
+            var loc = locationMapper.map(location);
+            locationRepository.save(loc);
             reportsJpa = reportsJpa
                     .parallelStream()
-                    .filter(rep -> locationService.isLocationsInRange(location, rep.getLocation(), reportFilter.getRange()))
+                    .filter(rep -> locationService.isLocationsInRange(loc, rep.getLocation(), distanceRange))
                     .toList();
         }
         return reportsJpa
