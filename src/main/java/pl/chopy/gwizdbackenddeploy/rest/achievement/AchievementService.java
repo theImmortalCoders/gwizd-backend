@@ -11,7 +11,6 @@ import pl.chopy.gwizdbackenddeploy.model.repository.AchievementRepository;
 import pl.chopy.gwizdbackenddeploy.model.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +47,7 @@ public class AchievementService {
         userAchievements.add(achievement);
         user.setAchievements(userAchievements);
         Option.of(userRepository.save(user))
-                .getOrElseThrow(()->new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+                .getOrElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
         return achievement;
     }
 

@@ -85,7 +85,7 @@ public class ReportService {
                 user,
                 isActive
         );
-        if (distanceRange != null && latitude != null && longitude!=null) {
+        if (distanceRange != null && latitude != null && longitude != null) {
             var loc = new Location();
             loc.setLongitude(longitude);
             loc.setLatitude(latitude);
