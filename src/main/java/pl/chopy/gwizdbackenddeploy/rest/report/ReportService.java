@@ -64,6 +64,7 @@ public class ReportService {
             Long userId, Double latitude,
             Double longitude,
             boolean isActive) {
+        reportProceedService.checkActivity();
         Animal animal = null;
         if (animalId != null) {
             animal = Option.ofOptional(animalRepository.findById(animalId))
@@ -84,7 +85,7 @@ public class ReportService {
                 user,
                 isActive
         );
-        if (distanceRange != null && latitude != null && longitude!=null) {
+        if (distanceRange != null && latitude != null && longitude != null) {
             var loc = new Location();
             loc.setLongitude(longitude);
             loc.setLatitude(latitude);
