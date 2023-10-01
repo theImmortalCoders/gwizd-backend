@@ -16,7 +16,7 @@ spring:
           google:
             client-id: 320408590575-fiidhhbp7bocnu22rtov41s6llb98e83.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: https://api.gwizd.online/login/oauth2/code/google
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
   mail:
     username: heilmartinos@gmail.com
     password: tqegwigfjdyyecla
