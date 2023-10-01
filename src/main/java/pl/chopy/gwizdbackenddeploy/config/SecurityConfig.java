@@ -90,12 +90,4 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CookieSerializer cookieSerializer() {
-        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setDomainName("gwizd.com"); // Ustaw domenę twojej poddomeny
-        serializer.setSameSite("None");
-        serializer.setUseSecureCookie(true); // Włącz zabezpieczenie przesyłania plików cookie
-        return serializer;
-    }
 }
