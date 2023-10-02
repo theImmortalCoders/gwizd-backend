@@ -1,3 +1,8 @@
+gwizd:
+  security:
+    auth:
+      loginUri: /api/oauth2/authorize
+      logoutUri: /api/oauth2/logout
 spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -16,7 +21,6 @@ spring:
           google:
             client-id: 320408590575-fiidhhbp7bocnu22rtov41s6llb98e83.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: https://api.gwizd.online/login/oauth2/code/google
   mail:
     username: heilmartinos@gmail.com
     password: tqegwigfjdyyecla

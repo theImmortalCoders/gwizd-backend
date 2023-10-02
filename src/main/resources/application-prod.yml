@@ -1,15 +1,19 @@
 gwizd:
   security:
     auth:
-      loginUri: /api/oauth2/authorize
       redirectUri: https://gwizd.online
-      logoutUri: /api/oauth2/logout
 spring:
   datasource:
     url: jdbc:postgresql://containers-us-west-125.railway.app:8058/railway
     username: postgres
     password: MijRsB9VUz3PzvrUpMnm
     name: railway
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: https://api.gwizd.online/login/oauth2/code/google
 server:
   servlet:
     session:

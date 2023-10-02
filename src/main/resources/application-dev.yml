@@ -1,12 +1,16 @@
 gwizd:
   security:
     auth:
-      loginUri: /api/oauth2/authorize
-      redirectUri: https://gwizd.online
-      logoutUri: /api/oauth2/logout
+      redirectUri: http://localhost:3000
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/user
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
