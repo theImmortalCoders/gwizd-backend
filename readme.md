@@ -18,7 +18,7 @@ Make sure you have port 5432 free on your Docker machine. \
 Then run application with IntelliJ IDEA with standard configuration.
 
 ## Overview
-#### The frontend of this app can be found on : https://github.com/Chopy4/gwizd-backend
+#### The frontend of this app can be found on : https://github.com/Chopy4/gwizd-frontend
 
 
 The application is designed to allow the user to record their observations 
