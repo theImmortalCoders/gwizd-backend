@@ -1,7 +1,7 @@
 gwizd:
   security:
     auth:
-      redirectUri: http://localhost:3000
+      redirectUri: http://localhost:8080/api/docs.html
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/user

@@ -40,6 +40,7 @@ public class ImageService {
                 .name(fileName)
                 .type(file.getContentType())
                 .filePath(filePath).build())).getOrElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
+        file.getInputStream().close();
         return imageData.getName();
     }
 

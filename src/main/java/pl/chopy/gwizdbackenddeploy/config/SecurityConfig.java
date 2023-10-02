@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.chopy.gwizdbackenddeploy.rest.auth.OidcAuthService;
@@ -43,12 +43,8 @@ public class SecurityConfig {
                 registry.addMapping("/**").allowedOrigins(
                         "http://localhost:3000",
                         "http://localgost:8080",
-                        "http://front.gwizd.online",
-                        "http://gwizd.online",
                         "https://gwizd.online",
-                        "http://api.gwizd.online",
-                        "https://api.gwizd.online",
-                        "http://back.gwizd.online"
+                        "https://api.gwizd.online"
                 ).allowCredentials(true);
             }
         };
@@ -59,7 +55,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authorizeHttpRequests(request -> request
                         .anyRequest()
@@ -71,12 +67,14 @@ public class SecurityConfig {
                         .authorizationEndpoint().baseUri(securityAuthProperties.getLoginUri())
                         .and()
                         .successHandler((request, response, authentication) -> {
+                            RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
                             String redirectUrl = Arrays.stream(request.getCookies())
                                     .filter(cookie -> cookie.getName().equals("redirectUrl"))
                                     .findFirst()
                                     .map(Cookie::getValue)
                                     .orElse(securityAuthProperties.getRedirectUri());
-                            response.sendRedirect(redirectUrl);
+                            redirectStrategy.sendRedirect(request, response, redirectUrl);
+                            System.out.println(redirectUrl);
                         }))
                 .logout(logout -> logout
                         .logoutUrl(securityAuthProperties.getLogoutUri())
@@ -84,7 +82,8 @@ public class SecurityConfig {
                         .invalidateHttpSession(false)
                         .deleteCookies("JSESSIONID")
                 )
-                .exceptionHandling().authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
+                .exceptionHandling().authenticationEntryPoint((request, response, authException) ->
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
                 .and()
                 .cors();
         return http.build();
