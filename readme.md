@@ -1,7 +1,6 @@
 # Gwizd - backend
 ## Project for 2023 Hackyeah.
 ### Marcin Bator, Wiktor Mazur, Bogdan Bosak
-#### Demo version: https://gwizd.online
 ## Prerequisites
 - Java JDK17
 - Spring Boot 2.7.15
